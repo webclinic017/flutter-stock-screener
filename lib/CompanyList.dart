@@ -1,3 +1,4 @@
+import 'package:charts/CompanyOverview.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,6 +37,16 @@ class _CompanyListState extends State<CompanyList> {
     futureCompanies = fetchCompanies();
   }
 
+  void tabHandler(String symbol) {
+    print(symbol);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CompanyOverview(symbol: symbol),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +63,9 @@ class _CompanyListState extends State<CompanyList> {
                         leading: Text(company.symbol),
                         title: Text(company.name),
                         subtitle: Text(company.symbol),
+                        onTap: () => {
+                          tabHandler(company.symbol),
+                        },
                       ),
                     );
                   },
