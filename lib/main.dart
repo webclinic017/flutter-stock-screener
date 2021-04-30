@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:flutter/material.dart';
+import 'CompanyList.dart';
 
-void main() {
+Future main() async {
+  await DotEnv.load(fileName: ".env");
   runApp(MyApp());
 }
 
@@ -14,7 +17,9 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(),
+      home:
+          // new HomePage(),
+          new CompanyList(),
     );
   }
 }
@@ -36,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (res.statusCode == 200) {
       // convert response to list so that we can loop through it
-      var data = jsonDecode(res.body) as List;
+      final data = jsonDecode(res.body) as List;
 
       for (var i = 0; i < data.length; i++) {
         albums.add(
@@ -64,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ? ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    var album = snapshot.data![index];
+                    final album = snapshot.data![index];
                     return Card(
                       child: ListTile(
                         leading: Text(album.id.toString()),
